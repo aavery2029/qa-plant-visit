@@ -487,59 +487,30 @@
                             <label>Region/Area <span class="required">*</span></label>
                             <select name="region" id="regionSelect" required>
                                 <option value="">-- Select Region --</option>
-                                <option value="Carolinas">Carolinas</option>
-                                <option value="Florida">Florida</option>
-                                <option value="Georgia">Georgia</option>
                                 <option value="Houston">Houston</option>
                             </select>
                         </div>
 
-                        <!-- Conditional Location Fields -->
-                        <div class="form-group hidden" id="carolinasLocations">
-                            <label>Carolinas Location <span class="required">*</span></label>
-                            <select name="carolinas_location">
-                                <option value="">-- Select Location --</option>
-                                <option value="CHARLOTTE">CHARLOTTE</option>
-                                <option value="CARY">CARY</option>
-                                <option value="INDIAN TRAIL">INDIAN TRAIL</option>
-                                <option value="RALEIGH">RALEIGH</option>
-                                <option value="WILMINGTON">WILMINGTON</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group hidden" id="floridaLocations">
-                            <label>Florida Location <span class="required">*</span></label>
-                            <select name="florida_location">
-                                <option value="">-- Select Location --</option>
-                                <option value="FORT MYERS">FORT MYERS</option>
-                                <option value="JACKSONVILLE">JACKSONVILLE</option>
-                                <option value="MIAMI">MIAMI</option>
-                                <option value="ORLANDO">ORLANDO</option>
-                                <option value="TAMPA">TAMPA</option>
-                                <option value="WEST PALM BEACH">WEST PALM BEACH</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group hidden" id="georgiaLocations">
-                            <label>Georgia Location <span class="required">*</span></label>
-                            <select name="georgia_location">
-                                <option value="">-- Select Location --</option>
-                                <option value="ATLANTA">ATLANTA</option>
-                                <option value="AUGUSTA">AUGUSTA</option>
-                                <option value="COLUMBUS">COLUMBUS</option>
-                                <option value="MACON">MACON</option>
-                                <option value="SAVANNAH">SAVANNAH</option>
-                            </select>
-                        </div>
-
+                        <!-- Houston Plant Locations -->
                         <div class="form-group hidden" id="houstonLocations">
-                            <label>Houston Location <span class="required">*</span></label>
+                            <label>Houston Plant Location <span class="required">*</span></label>
                             <select name="houston_location">
-                                <option value="">-- Select Location --</option>
-                                <option value="HOUSTON NORTH">HOUSTON NORTH</option>
-                                <option value="HOUSTON SOUTH">HOUSTON SOUTH</option>
-                                <option value="HOUSTON EAST">HOUSTON EAST</option>
-                                <option value="HOUSTON WEST">HOUSTON WEST</option>
+                                <option value="">-- Select Plant --</option>
+                                <option value="140 - JERSEY VILLAGE 1&2">140 - JERSEY VILLAGE 1&2</option>
+                                <option value="142 - GREENSPOINT">142 - GREENSPOINT</option>
+                                <option value="143 - FULTON 1&2">143 - FULTON 1&2</option>
+                                <option value="144 - RENWICK 1&2">144 - RENWICK 1&2</option>
+                                <option value="146 - BAYPORT">146 - BAYPORT</option>
+                                <option value="147 - ELLINGTON">147 - ELLINGTON</option>
+                                <option value="148 - MYKAWA">148 - MYKAWA</option>
+                                <option value="149 - CINCO">149 - CINCO</option>
+                                <option value="150 - TUF-CRETE">150 - TUF-CRETE</option>
+                                <option value="151 - BAYTOWN">151 - BAYTOWN</option>
+                                <option value="153 - TOMBALL">153 - TOMBALL</option>
+                                <option value="154 - HOLMES RD 1&2">154 - HOLMES RD 1&2</option>
+                                <option value="156 - KATY">156 - KATY</option>
+                                <option value="157 - RICHMOND">157 - RICHMOND</option>
+                                <option value="160 - HOCKLEY">160 - HOCKLEY</option>
                             </select>
                         </div>
 
@@ -845,7 +816,7 @@
 
             <!-- Success Message -->
             <div class="success-message" id="successMessage">
-                <div class="icon">âœ…</div>
+                <div class="icon">Ã¢Å“â€¦</div>
                 <h2>Submission Successful!</h2>
                 <p>Your QA Plant Visit Checklist has been submitted successfully.</p>
                 <p>A confirmation email will be sent shortly.</p>
@@ -856,7 +827,7 @@
 
     <script>
         // Form Configuration
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVfjmqyz59YtTfbARbU8YQU9WZktsRXVIP7JmCMTWONxmrRZ4rINqoDlJVCCCx_FbWZw/exec'; // Replace with your deployed Google Apps Script URL
+        const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // Replace with your deployed Google Apps Script URL
 
         // Page Navigation
         let currentPage = 1;
@@ -901,46 +872,22 @@
             window.scrollTo(0, 0);
         });
 
-        // Conditional Logic - Region-based location fields
+        // Conditional Logic - Houston plants
         const regionSelect = document.getElementById('regionSelect');
-        const carolinasLocations = document.getElementById('carolinasLocations');
-        const floridaLocations = document.getElementById('floridaLocations');
-        const georgiaLocations = document.getElementById('georgiaLocations');
         const houstonLocations = document.getElementById('houstonLocations');
 
         regionSelect.addEventListener('change', function() {
-            // Hide all location fields
-            [carolinasLocations, floridaLocations, georgiaLocations, houstonLocations].forEach(el => {
-                el.classList.add('hidden');
-                const select = el.querySelector('select');
-                if (select) {
-                    select.removeAttribute('required');
-                    select.value = '';
-                }
-            });
-
-            // Show relevant location field
-            const region = this.value;
-            let targetField = null;
-
-            switch(region) {
-                case 'Carolinas':
-                    targetField = carolinasLocations;
-                    break;
-                case 'Florida':
-                    targetField = floridaLocations;
-                    break;
-                case 'Georgia':
-                    targetField = georgiaLocations;
-                    break;
-                case 'Houston':
-                    targetField = houstonLocations;
-                    break;
+            // Hide Houston location field initially
+            houstonLocations.classList.add('hidden');
+            const select = houstonLocations.querySelector('select');
+            if (select) {
+                select.removeAttribute('required');
+                select.value = '';
             }
 
-            if (targetField) {
-                targetField.classList.remove('hidden');
-                const select = targetField.querySelector('select');
+            // Show Houston plants when Houston is selected
+            if (this.value === 'Houston') {
+                houstonLocations.classList.remove('hidden');
                 if (select) select.setAttribute('required', 'required');
             }
         });
@@ -976,7 +923,7 @@
                 const fileItem = document.createElement('div');
                 fileItem.className = 'file-item';
                 fileItem.innerHTML = `
-                    <span>ðŸ“Ž ${file.name} (${formatFileSize(file.size)})</span>
+                    <span>Ã°Å¸â€œÅ½ ${file.name} (${formatFileSize(file.size)})</span>
                     <button type="button" onclick="removeFile(${index})">Remove</button>
                 `;
                 fileList.appendChild(fileItem);
